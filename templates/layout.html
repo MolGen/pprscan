@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PPR Motif Discovery using Neural Network</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"> PPR Motif Discovery </a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/curated">Curated</a></li>
+                <li><a href="/logo">Logo</a></li>
+                <li><a href="https://www.github.com/MolGen/ppr-motif">Github</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="font-family: Courier New;" align="center">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+
+<footer class="footer" style="height: 40px; position: relative;" align="center">
+    <div class="container">
+        <span class="text-muted" style="padding-left: 10px;">© 2018 Copyright:
+            <a class="text-muted" href="mailto:convey.wang@gmail.com">Gongwei Wang</a>&nbsp;|&nbsp;
+            <a class="text-muted" href="/">Disclaimer</a>
+        </span>
+    </div>
+</footer>
+
+</html>
