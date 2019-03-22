@@ -10,7 +10,7 @@ from keras.utils import Sequence, to_categorical
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import label_binarize
 from sklearn.utils import class_weight
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 def preprocessing_seqs(seqs,
@@ -168,29 +168,40 @@ def scan_fasta(fasta, weight, classes, w=35, flatten=False, bg="B"):
     return entries
 
 
-def plot_confusion_matrix(model, x, y, labels, report=False):
+def plot_confusion_matrix(model, x_test, y_test, labels, norm=False, report=False):
     """
     Compute confusion matrix to evaluate the accuracy of a classification
     """
-    y_prob = model.predict(x)
-    y_pred = np.array(labels[y_prob.argmax(axis=-1)])
-    y_true = np.array(labels[y.argmax(axis=-1)])
-    
-    cmatrix = pd.crosstab(y_true, y_pred, 
-                          rownames=["Labels"], 
-                          colnames=["Predicted Labels"])
+    # labels = np.array(labels)
+    y_prob = model.predict(x_test)
+    y_pred = np.array(labels[y_prob.argmax(axis=1)])
+    y_true = np.array(labels[y_test.argmax(axis=1)])
+
     if report:
-        print(classification_report(y_true, y_pred, target_names=labels))
+        print(classification_report(y_true, y_pred, labels=labels))
+
+    cm = confusion_matrix(y_true, y_pred, labels)
     
-    fig, ax = plt.subplots(figsize=(12,6))         # Sample figsize in inches
-    #colors = sns.cubehelix_palette(10, start=2, rot=0, dark=0, light=.95)
+    if norm:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        fmt = ".2g"
+    else:
+        fmt = 'd'
+        
+    plt.figure(figsize=(12, 6))
     colors = sns.light_palette((210, 90, 60), input="husl")
-    sns.heatmap(cmatrix, 
-                cmap=colors, 
-                annot=True,
-                fmt='',
-                linewidths=.5, 
-                ax=ax)
+    sns.heatmap(cm,
+                cmap=colors, #"coolwarm"
+                linecolor='white',
+                linewidths=0.5,
+                xticklabels=labels,
+                yticklabels=labels,
+                fmt=fmt,
+                annot=True)
+    
+    plt.title("Confusion Matrix")
+    plt.ylabel("True Label")
+    plt.xlabel("Predicted Label")
     plt.show()
 
 
