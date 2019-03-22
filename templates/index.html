@@ -3,12 +3,12 @@
     <form role="form" method='POST' action="{{ url_for('anno') }}">
         <div class="form-group">
             <textarea id="fasta" name="fasta"
-                placeholder="Please paste FASTA-formatted protein sequences into the text area or load example sequences."
+                placeholder="Enter protein sequence(s) in fasta format..."
                 rows="20" class="form-control"></textarea>
         </div>
         <div class="row">
             <div class="col-xs-6 text-left">
-                <input class="btn btn-default btn-block" type="button" value="Load FASTA example"
+                <input class="btn btn-default btn-block" type="button" value="Example sequences"
                     onclick="load_examples()" />
             </div>
             <div class="col-xs-6 text-right">
@@ -20,7 +20,7 @@
 </div>
 <script>
     function load_examples() {
-        $("#fasta").load("https://raw.githubusercontent.com/MolGen/ppr-motif/master/datasets/example_sequences.fa");
+        $("#fasta").load("https://raw.githubusercontent.com/MolGen/pprscan/master/datasets/example_sequences.fa");
     }
 </script>
 {% endblock %}
