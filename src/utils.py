@@ -184,7 +184,7 @@ def plot_confusion_matrix(model, x_test, y_test, labels, norm=False, report=Fals
     
     if norm:
         # cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        cm = cm / np.expand_dims(cm2.sum(axis=1), axis=1)
+        cm = cm / np.expand_dims(cm.sum(axis=1), axis=1)
         fmt = ".2g"
     else:
         fmt = 'd'
