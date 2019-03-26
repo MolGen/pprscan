@@ -137,13 +137,13 @@ def scan_protein(accession, sequence, model, classes, w=35, flatten=False, bg="B
     y_prob = model.predict(encoded_subsequences)
     y_classes = y_prob.argmax(axis=-1)
 
-    starts = np.where(classes[y_classes] != bg)  # classes = np.array(classes)
-    feature = classes[y_classes[starts]]
-    proba = [y_prob[i][y_classes[i]] for i in starts[0]]
-    seq = [sequence[s:s + w] for s in starts[0]]
+    starts = np.where(classes[y_classes] != bg)[0]
+    feature = classes[y_classes][starts]
+    proba = y_prob.max(axis=-1)[starts]
+    seq = np.array(subsequences)[starts]
     d = {"accession": accession,
-         "start": starts[0],
-         "end": starts[0] + w,
+         "start": starts,
+         "end": starts + w,
          "feature": feature,
          "score": proba,
          "strand": "+",
